@@ -6,8 +6,8 @@ const Button = ({ handleClick, text}) => (
   </button>
 )
 
-const Stat = ({type, amount}) => (
-  <p>{type} {amount}</p>
+const StatisticLine = ({text, value}) => (
+  <p>{text} {value}</p>
 )
 
 const Average = ({all}) => {
@@ -22,6 +22,45 @@ const Average = ({all}) => {
 const Positive = ({all}) => (
   <p>Positive {(all.good / all.total) * 100} %</p>
 )
+
+const Statistics = ({stats}) => {
+  if (stats.total === 0) {
+    return <p>No feedback given</p>
+  }
+
+  return (
+    <>
+      <table>
+        <tbody>
+          <tr>
+            <td>good</td>
+            <td>{stats.good}</td>
+          </tr>
+          <tr>
+            <td>neutral</td>
+            <td>{stats.neutral}</td>
+          </tr>
+          <tr>
+            <td>bad</td>
+            <td>{stats.bad}</td>
+          </tr>
+          <tr>
+            <td>all</td>
+            <td>{stats.total}</td>
+          </tr>
+          <tr>
+            <td>average</td>
+            <td>{(stats.good + stats.bad * -1) / stats.total}</td>
+          </tr>
+          <tr>
+            <td>positive</td>
+            <td>{(stats.good / stats.total) * 100} %</td>
+          </tr>
+        </tbody>
+      </table>
+    </>
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
@@ -50,13 +89,7 @@ const App = () => {
       <Button handleClick={handleBadClick} text="bad"/>
 
       <h1>statistics</h1>
-      <Stat type="good" amount={good} />
-      <Stat type="neutral" amount={neutral} />
-      <Stat type="bad" amount={bad} />
-      <Stat type="all" amount={all.total} />
-
-      <Average all={all} />
-      <Positive all={all} />
+      <Statistics stats={all}/>
 
     </div>
   )
