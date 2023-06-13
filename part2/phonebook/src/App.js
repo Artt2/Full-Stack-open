@@ -1,20 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 
 const App = () => {
+  /*
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
     { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieckx', number: '39-23-6423122', id: 4 }
-  ]) 
+  ]) */
+  const [persons, setPersons] = useState([])
+
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
 
   const [newSearch, setNewSearch] = useState("")
   const [filtered, setFiltered] = useState(persons)
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons") //get json data from server
+      .then(response => { //this gets executed when data is received
+        setPersons(response.data) //persons are set to the received ones, activates the Effect below
+      })
+  }, [])  //[] means that its triggered only once
+
+  //re-renders the page when persons is updated (the json data is received from the server)
+  useEffect(() => {
+    const filteredPersons = persons.filter(person =>
+      person.name.toLowerCase().includes(newSearch.toLowerCase())
+    );
+    setFiltered(filteredPersons);
+  }, [persons, newSearch]); //triggers persons or newSearch updates
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)  //sets the input fields string into the newName state
