@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
+import Error from './components/Error'
 import personService from './services/persons'
 
 const App = () => {
@@ -13,6 +14,9 @@ const App = () => {
 
   const [newSearch, setNewSearch] = useState("")
   const [filtered, setFiltered] = useState(persons)
+
+  const [notificationMsg, setNotificationMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
     personService
@@ -55,8 +59,12 @@ const App = () => {
           .then(() => {
             setPersons(persons.map(person => person.id !== newObject.id ? person : newObject ) );  //sets persons again
             //setFiltered(filtered.map(person => person.id !== newObject.id ? person : newObject)); //sets filtered again
-            setNewName("")
-            setNewNumber("")
+            setNewName("");
+            setNewNumber("");
+            setNotificationMsg(`Added ${newObject.name}`)
+            setTimeout(() => {
+              setNotificationMsg(null)
+            }, 5000)
           })
 
       }
@@ -87,6 +95,12 @@ const App = () => {
       )
     
     setFiltered(filtered) //shows the newly added person on the list right away
+
+    setNotificationMsg(`Added ${nameObject.name}`)
+    setTimeout(() => {
+      setNotificationMsg(null)
+    }, 5000)
+
   }
 
   const handleNumberChange = (event) => {
@@ -118,12 +132,16 @@ const App = () => {
         setPersons(persons.filter(person => person.id !== id) );  //sets persons again
         setFiltered(filtered.filter(person => person.id !== id)); //sets filtered again
       })
+      .catch(error => {
+        setErrorMsg(`Information of person has already been removed from server`)
+      })
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification message={notificationMsg} />
+      <Error message={errorMsg} />
       <Filter newSearch={newSearch} handleSearchChange={handleSearchChange}/>
 
       <br/>
