@@ -3,15 +3,9 @@ import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
+import personService from './services/persons'
 
 const App = () => {
-  /*
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieckx', number: '39-23-6423122', id: 4 }
-  ]) */
   const [persons, setPersons] = useState([])
 
   const [newName, setNewName] = useState("")
@@ -21,12 +15,12 @@ const App = () => {
   const [filtered, setFiltered] = useState(persons)
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons") //get json data from server
-      .then(response => { //this gets executed when data is received
-        setPersons(response.data) //persons are set to the received ones, activates the Effect below
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
-  }, [])  //[] means that its triggered only once
+  }, [])
 
   //re-renders the page when persons is updated (the json data is received from the server)
   useEffect(() => {
@@ -50,7 +44,27 @@ const App = () => {
       )
     
     if (found) {
-      alert(`${newName} is already added to phonebook`)
+      const replace = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      
+      if (replace) {
+        const oldObject = persons.filter(person => person.name === newName)[0]
+        const newObject = { ...oldObject, number: newNumber}
+
+        personService
+          .update(newObject.id, newObject)
+          .then(() => {
+            setPersons(persons.map(person => person.id !== newObject.id ? person : newObject ) );  //sets persons again
+            //setFiltered(filtered.map(person => person.id !== newObject.id ? person : newObject)); //sets filtered again
+            setNewName("")
+            setNewNumber("")
+          })
+
+      }
+      //setFiltered again with the new persons info 
+      const filtered = persons.filter(person => {
+        person.name.toLowerCase().includes(newSearch.toLowerCase())
+      })
+      setFiltered(filtered)
       return
     }
 
@@ -58,18 +72,21 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    const temp = persons.concat(nameObject)
-    setPersons(temp)  //sets persons to concatenated version
-    
-    setNewName("")  //clears the input field
-    setNewNumber("")
+    const temp = persons.concat(nameObject) //THIS MIGHT CAUSE ERRORS
 
+    personService
+      .create(nameObject)
+      .then(returnedName => {
+        setPersons(persons.concat(returnedName))  //set the new people
+        setNewName("")  //clears the input fields
+        setNewNumber("")
+      })
     
-    const filtered = temp.filter(person => 
+    const filtered = temp.filter(person => //filters again, with the new person added
       person.name.includes(newSearch)
       )
     
-    setFiltered(filtered) 
+    setFiltered(filtered) //shows the newly added person on the list right away
   }
 
   const handleNumberChange = (event) => {
@@ -89,6 +106,20 @@ const App = () => {
     setFiltered(filtered)
   }
 
+  const handleRemove = (id) => {
+
+    if (!(window.confirm(`Delete ${persons.filter(person => person.id === id)[0].name}`))) {
+      return
+    }
+
+    personService
+      .remove(id) //removes the person (sends DELETE request)
+      .then(() => { //once filled
+        setPersons(persons.filter(person => person.id !== id) );  //sets persons again
+        setFiltered(filtered.filter(person => person.id !== id)); //sets filtered again
+      })
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -100,7 +131,7 @@ const App = () => {
       <PersonForm newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} handleAdding={handleAdding}/>
       
       <h2>Numbers</h2>
-      <Persons persons={filtered}/>
+      <Persons persons={filtered} handleRemove={handleRemove}/>
 
     </div>
     
