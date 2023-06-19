@@ -61,9 +61,16 @@ const App = () => {
             //setFiltered(filtered.map(person => person.id !== newObject.id ? person : newObject)); //sets filtered again
             setNewName("");
             setNewNumber("");
-            setNotificationMsg(`Added ${newObject.name}`)
+            setNotificationMsg(`Replaced number of ${newObject.name}`)
             setTimeout(() => {
               setNotificationMsg(null)
+            }, 5000)
+          })
+          .catch(error =>  {
+            console.log(error.response.data.error)
+            setErrorMsg(`${error.response.data.error}`)
+            setTimeout(() => {
+              setErrorMsg(null)
             }, 5000)
           })
 
@@ -88,18 +95,26 @@ const App = () => {
         setPersons(persons.concat(returnedName))  //set the new people
         setNewName("")  //clears the input fields
         setNewNumber("")
-      })
-    
-    const filtered = temp.filter(person => //filters again, with the new person added
-      person.name.includes(newSearch)
-      )
-    
-    setFiltered(filtered) //shows the newly added person on the list right away
 
-    setNotificationMsg(`Added ${nameObject.name}`)
-    setTimeout(() => {
-      setNotificationMsg(null)
-    }, 5000)
+        const filtered = temp.filter(person => //filters again, with the new person added
+          person.name.includes(newSearch)
+          )
+        
+        setFiltered(filtered) //shows the newly added person on the list right away
+    
+        setNotificationMsg(`Added ${nameObject.name}`)
+        setTimeout(() => {
+          setNotificationMsg(null)
+        }, 5000)
+      })
+      .catch(error => {
+        console.log(error.response.data.error)
+        setErrorMsg(`${error.response.data.error}`)
+        setTimeout(() => {
+          setErrorMsg(null)
+        }, 5000)
+      })
+  
 
   }
 
