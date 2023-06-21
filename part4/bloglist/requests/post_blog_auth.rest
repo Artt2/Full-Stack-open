@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0OTFhMmI4M2FhMGQ5OGIxMDU3ODhhZiIsImlhdCI6MTY4NzMzNzM3OH0.WReUEYFjm0y8UfHuVU0zcYv4FYWVj-VyQ2leKjxTTxY
+
+{
+  "title": "to be deleted",
+  "author": "Artt2",
+  "url": "url.com",
+  "likes": 2
+}
