@@ -1,8 +1,6 @@
-const LoginForm = (username, setUsername, handleLogin, password, setPassword) => {
+const LoginForm = ({ username, setUsername, handleLogin, password, setPassword }) => {
   return (
-    <div>
-      <h2>Log in to application</h2>
-      <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin}>
       <div>
         username
           <input
@@ -14,7 +12,7 @@ const LoginForm = (username, setUsername, handleLogin, password, setPassword) =>
       </div>
       <div>
         password
-          <input
+          <input 
           type="password"
           value={password}
           name="Password"
@@ -22,8 +20,7 @@ const LoginForm = (username, setUsername, handleLogin, password, setPassword) =>
         />
       </div>
       <button type="submit">login</button>
-      </form>
-    </div>
+    </form>
   )
 }
 
