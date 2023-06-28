@@ -8,16 +8,16 @@ const BlogForm = ({ createBlog, setMessage }) => {
   const addBlog = (event) => {
     event.preventDefault()
     createBlog({
-        title: title,
-        author: author,
-        url: url,
-      })
-    
+      title: title,
+      author: author,
+      url: url,
+    })
+
     setMessage(`${title} by ${author} added`)
     setTimeout(() => {
       setMessage(null)
-    }, 5000) 
-    
+    }, 5000)
+
     setTitle("")
     setAuthor("")
     setUrl("")
@@ -27,29 +27,29 @@ const BlogForm = ({ createBlog, setMessage }) => {
     <form onSubmit={addBlog}>
       <div>
         title:
-          <input 
+        <input
           type="text"
           value={title}
           name="Title"
-          onChange={({ target}) => setTitle(target.value)}  
+          onChange={({ target }) => setTitle(target.value)}
         />
       </div>
       <div>
         author:
-          <input 
+        <input
           type="text"
           value={author}
           name="Author"
-          onChange={({ target}) => setAuthor(target.value)}  
+          onChange={({ target }) => setAuthor(target.value)}
         />
       </div>
       <div>
         url:
-          <input 
+        <input
           type="text"
           value={url}
           name="Url"
-          onChange={({ target}) => setUrl(target.value)}  
+          onChange={({ target }) => setUrl(target.value)}
         />
       </div>
       <button type="submit">create</button>

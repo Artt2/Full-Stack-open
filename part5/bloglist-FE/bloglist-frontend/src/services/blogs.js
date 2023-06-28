@@ -1,5 +1,5 @@
-import axios from 'axios'
-const baseUrl = '/api/blogs'
+import axios from "axios"
+const baseUrl = "/api/blogs"
 
 let token = null
 
@@ -14,7 +14,7 @@ const getAll = () => {
 
 const create = async (newObject) => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
 
   const response = await axios.post(baseUrl, newObject, config)
@@ -26,5 +26,12 @@ const likePost = async (blogObject, urlId) => {
   return response.data
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { setToken, getAll, create, likePost }
+const removeBlog = async (blogID, token) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+  await axios.delete(`${baseUrl}/${blogID}`, config)
+}
+
+
+export default { setToken, getAll, create, likePost, removeBlog }

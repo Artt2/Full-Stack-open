@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import Blog from "./components/Blog"
-import LoginForm from './components/LoginForm'
+import LoginForm from "./components/LoginForm"
 import loginService from "./services/login"
 import blogService from "./services/blogs"
 import Notification from "./components/Notification"
@@ -9,8 +9,8 @@ import BlogForm from "./components/BlogForm"
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   const [user, setUser] = useState(null)
 
@@ -20,7 +20,7 @@ const App = () => {
   useEffect(() => { //gets all the blogs at startup from API
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => { //tries to find user and add it at startup
@@ -39,7 +39,7 @@ const App = () => {
     event.preventDefault()
     try {
       //log user in using the API
-      const user = await loginService.login({ //returns json info 
+      const user = await loginService.login({ //returns json info
         username, password,
       })
       //sets the token for blogService
@@ -65,13 +65,19 @@ const App = () => {
     setUser(null)
     window.localStorage.removeItem("loggedBlogappUser")
   }
-  
+
   const createBlog = async (blogObject) => {
-    const newBlog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(newBlog))
+    const blogFromDatabase = await blogService.create(blogObject)  //add blog to database
+
+    const blogObjectWithUser = {
+      ...blogFromDatabase,
+      user: user
+    }
+
+    setBlogs(blogs.concat(blogObjectWithUser))  //the new blog is not pulled from db, this serves until refresh
     blogFormRef.current.toggleVisibility()
   }
-  
+
   if (user === null){
     return (
       <div>
@@ -94,7 +100,7 @@ const App = () => {
         </Togglable>
 
         {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />
         )}
       </div>
     )
