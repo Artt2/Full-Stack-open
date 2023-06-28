@@ -9,6 +9,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser")
   const loggedUser = JSON.parse(loggedUserJSON)
   const showRemoveButton = blog.user.username === loggedUser.username
+  //const showRemoveButton = false  //use this for test configuration, since loggeduser is not set in tests
 
   const blogStyle = {
     paddingTop: 10,
@@ -48,9 +49,9 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} >
       <div>
-        <div style={showWhenVisible}>
+        <div style={showWhenVisible} className="titleAndAuthor">
           {blog.title} {blog.author}
           <button type="button" onClick={() => setDetailsVisible(false)}>hide</button>
         </div>
@@ -59,7 +60,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
           <button type="button" onClick={() => setDetailsVisible(true)}>view</button>
         </div>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className="urlAndLikes">
         {blog.url}<br/>
         likes {blog.likes} <button type="button" onClick={likePost}>like</button><br/>
         {blog.user.name}
