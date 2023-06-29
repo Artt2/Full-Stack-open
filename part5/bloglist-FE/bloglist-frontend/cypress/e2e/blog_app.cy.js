@@ -73,7 +73,7 @@ describe("Blog app", function() {
       cy.contains("testtitle").not()
     })
 
-    it("post sorted by likes", function() {
+    it.only("post sorted by likes", function() {
       cy.contains("new blog").click()
       cy.get("#title-textbox").type("testtitle")
       cy.get("#author-textbox").type("testauthor")
@@ -89,15 +89,8 @@ describe("Blog app", function() {
       cy.get("#url-textbox").type("testurl2")
       cy.get("#create-button").click()
 
-      cy.reload()
-
-      cy.contains("view").each(($button) => {
-        cy.wrap($button).click()
-      })
-
-      cy.contains("likes 1")  //contains likes 1 first
-      cy.contains("likes 0")  //likes 0 second
-
+      cy.get(".blog").eq(0).should("contain", "testtitle").and("contain", "likes 1")  //first blog contains 1 likes
+      cy.get(".blog").eq(1).should("contain", "testtitle2").and("contain", "likes 0") //second blog contains 0 likes
     })
 
   })

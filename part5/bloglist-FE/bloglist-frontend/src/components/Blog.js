@@ -1,7 +1,7 @@
 import { useState } from "react"
 import blogService from "../services/blogs"
 
-const Blog = ({ blog, blogs, setBlogs }) => {
+const Blog = ({ blog, blogs, setBlogs, className }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
   const hideWhenVisible = { display: detailsVisible ? "none" : "" }
   const showWhenVisible = { display: detailsVisible ? "" : "none" }
@@ -49,7 +49,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   }
 
   return (
-    <div style={blogStyle} >
+    <div style={blogStyle} className={className}>
       <div>
         <div style={showWhenVisible} className="titleAndAuthor">
           {blog.title} {blog.author}
