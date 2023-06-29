@@ -51,7 +51,6 @@ blogsRouter.delete("/:id", async (request, response) => {
 })
 
 blogsRouter.put("/:id", async (request, response, next) => {
-  console.log("server side put log")
   const {user, title, author, url, likes } = request.body
 
   const blog = {
@@ -61,8 +60,7 @@ blogsRouter.put("/:id", async (request, response, next) => {
     url,
     likes
   }
-  console.log(request.params.id)  //these two ids should be diferent
-  console.log(blog)
+  
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true})
   response.json(updatedBlog)
 })

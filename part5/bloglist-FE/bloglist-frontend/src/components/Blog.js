@@ -62,9 +62,9 @@ const Blog = ({ blog, blogs, setBlogs }) => {
       </div>
       <div style={showWhenVisible} className="urlAndLikes">
         {blog.url}<br/>
-        likes {blog.likes} <button type="button" onClick={likePost}>like</button><br/>
+        likes {blog.likes} <button id="like-button" type="button" onClick={likePost}>like</button><br/>
         {blog.user.name}
-        {showRemoveButton && (<button type="button" onClick={removeBlog}>remove</button>)}
+        {showRemoveButton && (<button id="remove-button" type="button" onClick={removeBlog}>remove</button>)}
       </div>
     </div>
   )

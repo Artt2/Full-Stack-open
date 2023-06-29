@@ -33,7 +33,7 @@ const App = () => {
     }
   }, [])
 
-  const blogFormRef = useRef()
+  const blogFormRef = useRef(null)  //initialize with null
 
   const handleLogin = async (event) => {  //handles the submit of the login form
     event.preventDefault()
@@ -92,15 +92,15 @@ const App = () => {
         <h2>blogs</h2>
         <Notification message={message} type="newBlog" />
         <p>{user.name} logged in</p>
-        <button type="button" onClick={handleLogout}>logout</button>
+        <button id="logout-button" type="button" onClick={handleLogout}>logout</button>
 
         <h2>create new</h2>
-        <Togglable buttonLabel="new note" ref={blogFormRef}>
+        <Togglable buttonLabel="new blog" ref={blogFormRef}>
           <BlogForm createBlog={createBlog} setMessage={setMessage} />
         </Togglable>
 
         {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-          <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />
+          <Blog key={blog.id} className="blog" blog={blog} blogs={blogs} setBlogs={setBlogs} />
         )}
       </div>
     )

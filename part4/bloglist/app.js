@@ -9,6 +9,7 @@ const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+const testingRouter = require("./controllers/testing")
 mongoose.set('strictQuery', false)
 
 mongoose.connect(config.MONGODB_URI)
@@ -30,7 +31,7 @@ app.use("/api/users", usersRouter)
 app.use("/api/login", loginRouter)
 
 if (process.env.NODE_ENV === "test") {
-  const testingRouter = require("./controllers/testing")
+  //const testingRouter = require("./controllers/testing")
   app.use("/api/testing", testingRouter)
 }
 
