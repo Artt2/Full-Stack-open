@@ -16,18 +16,19 @@ const Blog = ({ blog, blogs, setBlogs, className }) => {
     paddingLeft: 2,
     border: "solid",
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
   }
 
   const likePost = async () => {
-    const blogObject = {  //the new blog object for put
+    const blogObject = {
+      //the new blog object for put
       user: blog.user.id,
       likes: blog.likes + 1,
       author: blog.author,
       title: blog.title,
-      url: blog.url
+      url: blog.url,
     }
-    await blogService.likePost(blogObject, blog.id)  //calling the service's likePost function
+    await blogService.likePost(blogObject, blog.id) //calling the service's likePost function
     //update the likes, since new data isnt asked from the database until refresh
     blog.likes = blogObject.likes
     //setDetailsVisible(!detailsVisible)
@@ -44,7 +45,6 @@ const Blog = ({ blog, blogs, setBlogs, className }) => {
       const filteredBlogs = blogs.filter((b) => b.id !== blog.id)
 
       setBlogs(filteredBlogs)
-
     }
   }
 
@@ -53,18 +53,31 @@ const Blog = ({ blog, blogs, setBlogs, className }) => {
       <div>
         <div style={showWhenVisible} className="titleAndAuthor">
           {blog.title} {blog.author}
-          <button type="button" onClick={() => setDetailsVisible(false)}>hide</button>
+          <button type="button" onClick={() => setDetailsVisible(false)}>
+            hide
+          </button>
         </div>
         <div style={hideWhenVisible}>
           {blog.title} {blog.author}
-          <button type="button" onClick={() => setDetailsVisible(true)}>view</button>
+          <button type="button" onClick={() => setDetailsVisible(true)}>
+            view
+          </button>
         </div>
       </div>
       <div style={showWhenVisible} className="urlAndLikes">
-        {blog.url}<br/>
-        likes {blog.likes} <button id="like-button" type="button" onClick={likePost}>like</button><br/>
+        {blog.url}
+        <br />
+        likes {blog.likes}{" "}
+        <button id="like-button" type="button" onClick={likePost}>
+          like
+        </button>
+        <br />
         {blog.user.name}
-        {showRemoveButton && (<button id="remove-button" type="button" onClick={removeBlog}>remove</button>)}
+        {showRemoveButton && (
+          <button id="remove-button" type="button" onClick={removeBlog}>
+            remove
+          </button>
+        )}
       </div>
     </div>
   )

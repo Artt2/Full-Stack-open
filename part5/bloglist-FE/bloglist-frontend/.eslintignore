@@ -5,3 +5,5 @@ index.js
 Blog.test.js
 babel.config.json
 cypress
+App.js
+notificationReducer.js
