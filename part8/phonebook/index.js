@@ -2,6 +2,24 @@ const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
 const { v1: uuid } = require("uuid")
 
+const mongoose = require("mongoose")
+mongoose.set("strictQuery", false)
+const Book = require("./models/book")
+const Author = require("./models/author")
+require("dotenv").config()
+
+const MONGODB_URI = process.env.MONGODB_URI
+
+console.log("connecting to", MONGODB_URI)
+
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log("connected to MONGODB")
+  })
+  .catch((error) => {
+    console.log('error connection to MongoDB:', error.message)
+  })
+
 let authors = [
   {
     name: 'Robert Martin',
@@ -102,7 +120,7 @@ const typeDefs = `
   type Book {
     title: String!
     published: Int!
-    author: String!
+    author: Author!
     genres: [String!]!
     id: ID!
   }
@@ -163,18 +181,37 @@ const resolvers = {
     }
   },
   Mutation: {
-    addBook: (root, args) => {
+    addBook: async (root, args) => {
+      /*
       if (!authors.find(author => author.name === args.author)) { //author is not found, lets add new author
+        
         const newAuthor = {
           name: args.author,
           born: null
         }
         authors = authors.concat(newAuthor)
+        */
+      let author = await Author.findOne({ name: args.author })  //try to find Author from database
+      if (!author) {  //author not found
+        author = new Author({
+          name: args.author,
+          born: null
+        })
+        await author.save() //create new author to db
       }
+      //}
+      /*
       const newBook = {
         ...args, id: uuid()
       }
-      books = books.concat(newBook)
+      books = books.concat(newBook) */
+      
+      const newBook = new Book({
+        ...args,
+        author: author._id  //save id that references author
+      })
+      await newBook.save()
+
       return newBook
     },
     editAuthor: (root, args) => {
