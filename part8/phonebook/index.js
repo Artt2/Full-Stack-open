@@ -197,7 +197,7 @@ const resolvers = {
       if (args.genre) {
         query.genres = { $in: [args.genre] }
       }
-      const retBooks = await Book.find(query)
+      const retBooks = await Book.find(query).populate("author")  //populate author
       return retBooks
     },
     allAuthors: async () => {
