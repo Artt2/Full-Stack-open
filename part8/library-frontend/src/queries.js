@@ -52,3 +52,14 @@ mutation editBorn($name: String!, $setBornTo: Int) {
   }
 }
 `
+
+export const LOGIN = gql`
+mutation something($username: String!, $password: String!) {
+  login (
+    username: $username,
+    password: $password
+  ) {
+    value
+  }
+}
+`

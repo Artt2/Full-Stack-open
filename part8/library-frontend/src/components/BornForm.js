@@ -10,7 +10,6 @@ const BornForm = ({ authors }) => {
   })
 
   const handleSelect = (event) => {
-    console.log(`changed to: ${event.target.value}`)
     setSelectState(event.target.value)
   }
 
