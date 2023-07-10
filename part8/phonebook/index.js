@@ -210,7 +210,6 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args, context) => {
-      console.log(context.currentUser)
       if (!context.currentUser) {
         return null
       }
