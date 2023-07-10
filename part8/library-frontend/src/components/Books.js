@@ -1,7 +1,10 @@
 import { useQuery } from "@apollo/client"
 import { ALL_BOOKS } from "../queries"
+import { useState } from "react"
 
 const Books = (props) => {
+  const [filterGenre, setFilterGenre] = useState("")
+
   if (!props.show) {
     return null
   }
@@ -12,7 +15,17 @@ const Books = (props) => {
     return null
   }
 
-  const books = result.data.allBooks
+  const allBooks = result.data.allBooks
+  //const books = allBooks
+  const books = allBooks.filter(book => filterGenre === "" ? true : book.genres.includes(filterGenre))
+  const duplicateGenres = allBooks.flatMap(book => book.genres)
+  const genres = [...new Set(duplicateGenres)]
+  console.log(genres)
+
+  const setGenre = (genre) => {
+    console.log(`setting filter to ${genre}`)
+    setFilterGenre(genre)
+  }
 
   return (
     <div>
@@ -34,6 +47,13 @@ const Books = (props) => {
           ))}
         </tbody>
       </table>
+
+      <div>
+        {genres.map(genre => (
+          <button key={genre} onClick={() => setGenre(genre)}>{genre}</button>
+        ))}
+        {<button onClick={() => setFilterGenre("")}>all genres</button>}
+      </div>
     </div>
   )
 }
