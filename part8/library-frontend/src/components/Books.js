@@ -1,22 +1,22 @@
 import { useQuery } from "@apollo/client"
 import { ALL_BOOKS } from "../queries"
-import { useState } from "react"
 
-const Books = (props) => {
-  const [filterGenre, setFilterGenre] = useState("")
+const Books = ({show, filterGenre, setFilterGenre}) => {
 
-  if (!props.show) {
+  if (!show) {
     return null
   }
 
   const result = useQuery(ALL_BOOKS) //eslint-disable-line
 
+  /*
   if (result.loading) {
     return null
   }
 
-  const allBooks = result.data.allBooks
-  //const books = allBooks
+  const allBooks = result.data.allBooks */
+  const allBooks = result.loading ? [] : result.data.allBooks
+
   const books = allBooks.filter(book => filterGenre === "" ? true : book.genres.includes(filterGenre))
   const duplicateGenres = allBooks.flatMap(book => book.genres)
   const genres = [...new Set(duplicateGenres)]
