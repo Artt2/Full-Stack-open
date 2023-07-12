@@ -1,4 +1,4 @@
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
   const heightInMeters: number = height / 100;
   const bmi: number =  weight / (heightInMeters * heightInMeters);
 
@@ -21,10 +21,10 @@ const calculateBmi = (height: number, weight: number): string => {
       bmiCategory = "Morbid Obesity";
       break;
     default:
-      throw new Error("Invalid arguments.")
+      throw new Error("Invalid arguments.");
   }
 
-  return bmiCategory
+  return bmiCategory;
 }
 
-console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])))
+//console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])))
