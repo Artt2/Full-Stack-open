@@ -1,29 +1,26 @@
 import { useQuery } from "@apollo/client"
-import { ALL_BOOKS } from "../queries"
+import { ALL_BOOKS, GET_BOOKS_BY_GENRE } from "../queries"
 
 const Books = ({show, filterGenre, setFilterGenre}) => {
-
   if (!show) {
     return null
   }
-
+  
   const result = useQuery(ALL_BOOKS) //eslint-disable-line
 
-  /*
-  if (result.loading) {
-    return null
-  }
-
-  const allBooks = result.data.allBooks */
   const allBooks = result.loading ? [] : result.data.allBooks
+  
+  //const books = allBooks.filter(book => filterGenre === "" ? true : book.genres.includes(filterGenre))
 
-  const books = allBooks.filter(book => filterGenre === "" ? true : book.genres.includes(filterGenre))
+  //get books by genre using allBooks with a variable
+  const booksByGenreResult = useQuery(GET_BOOKS_BY_GENRE, { variables: { genre: filterGenre } })  //eslint-disable-line
+  
+  const books = booksByGenreResult.loading ? [] : booksByGenreResult.data.allBooks
+
   const duplicateGenres = allBooks.flatMap(book => book.genres)
   const genres = [...new Set(duplicateGenres)]
-  console.log(genres)
 
   const setGenre = (genre) => {
-    console.log(`setting filter to ${genre}`)
     setFilterGenre(genre)
   }
 
