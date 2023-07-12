@@ -9,8 +9,6 @@ const Books = ({show, filterGenre, setFilterGenre}) => {
   const result = useQuery(ALL_BOOKS) //eslint-disable-line
 
   const allBooks = result.loading ? [] : result.data.allBooks
-  
-  //const books = allBooks.filter(book => filterGenre === "" ? true : book.genres.includes(filterGenre))
 
   //get books by genre using allBooks with a variable
   const booksByGenreResult = useQuery(GET_BOOKS_BY_GENRE, { variables: { genre: filterGenre } })  //eslint-disable-line
