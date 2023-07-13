@@ -25,6 +25,6 @@ export const calculateBmi = (height: number, weight: number): string => {
   }
 
   return bmiCategory;
-}
+};
 
 //console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])))
