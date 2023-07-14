@@ -1,10 +1,18 @@
-interface ContextProps {
-  name: string
-  exerciseCount: number
+import Part from "./Part"
+import { CoursePart } from "../types";
+
+interface ContentProps {
+  courseParts: CoursePart[]
 }
 
-const Context = (props: ContextProps) => {
-  return (<p>{props.name} {props.exerciseCount}</p>)
+const Content = (props: ContentProps) => {
+  return (
+    <div>
+      {props.courseParts.map((part, index) => (
+        <Part key={index} {...part} />
+      ))}
+    </div>
+  )
 }
 
-export default Context;
+export default Content;
