@@ -11,12 +11,13 @@ const getPatients = (): Patient[] => {
 };
 
 const getNonSensitivePatients = (): NonSensitivePatient[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
     id,
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
+    entries
   }));
 };
 /*
@@ -27,7 +28,6 @@ const addPatient = (patient: NewPatient): Patient => {
   const newPerson = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     id: uuid(),
-    entries: [],
     ...patient
   };
   
@@ -37,7 +37,7 @@ const addPatient = (patient: NewPatient): Patient => {
 
 const getNonSensitivePatient = (id: string): Patient | undefined => {
   const patient: Patient | undefined = patients.find(p => p.id === id);
-  
+
   if (patient) {
     return patient;
   }

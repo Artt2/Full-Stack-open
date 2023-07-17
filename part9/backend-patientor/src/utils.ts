@@ -1,4 +1,4 @@
-import { NewPatient, Gender } from "./types";
+import { NewPatient, Gender, Entry } from "./types";
 
 /*
   Returns true if param text is a string
@@ -62,6 +62,31 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
+const parseEntries = (entries: unknown): Entry[] => {
+  const validEntryTypes: string[] = ["Hospital", "OccupationalHealthcare", "HealthCheck"];
+  
+  //check that entries is of type array
+  if (!Array.isArray(entries)) {
+    throw new Error("Invalid entries data: entries must be an array");
+  }
+  
+  //check that each entry of entries has field "type" that is of validEntryTypes
+  return entries.map((entry) => {
+    //check that entry is an object, it exists, field type exists, and field of type is string
+    if (typeof entry !== "object" || !entry || !("type" in entry) || typeof entry.type !== "string") {
+      throw new Error("Invalid entry data");
+    }
+    
+    //type included in validEntryTypes
+    if (!validEntryTypes.includes(entry.type)) {  //eslint-disable-line
+      throw new Error(`Invalid entry type: ${entry.type}`);
+    }
+
+    return entry as Entry;
+  });
+  
+};
+
 /*
   Takes an unknown object as a parameter (req.body of the POST request).
   Returns either an error or a NewPatient.
@@ -76,14 +101,16 @@ const toNewPatient = (object: unknown): NewPatient => {
     "dateOfBirth" in object && 
     "ssn" in object && 
     "gender" in object && 
-    "occupation" in object
+    "occupation" in object &&
+    "entries" in object
     ) {
     const newPatient = {
       name: parseName(object.name),
       dateOfBirth: parseDate(object.dateOfBirth),
       ssn: parseSsn(object.ssn),
       gender: parseGender(object.gender),
-      occupation: parseOccupation(object.occupation)
+      occupation: parseOccupation(object.occupation),
+      entries: parseEntries(object.entries)
     };
 
     return newPatient;
