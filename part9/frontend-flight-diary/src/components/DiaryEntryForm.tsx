@@ -9,7 +9,7 @@ interface DiaryEntryFormProps {
   setDiaryEntries: React.Dispatch<React.SetStateAction<DiaryEntryInterface[]>>;
 }
 
-// MAKE NOTIFICATION WORK, WHEN BACKEND FAILS TO ADD!
+// MAKE NOTIFICATION WORK, WHEN BACKEND FAILS TO ADD! RENAME TO FRONTEND
 
 const DiaryEntryForm = (props: DiaryEntryFormProps) => {
   const [date, setDate] = useState("");
