@@ -1,12 +1,29 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Diagnosis, Patient } from "../types";
+
 import patientService from "../services/patients";
-import { Patient } from "../types";
+import diagnosisService from "../services/diagnoses";
+
 
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>(); //id from url
   const [patient, setPatient] = useState<Patient | null>(null); //Patient object or null
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[] | null>(null)  //List of Diagnoses or null
   
+  useEffect(() => {
+    const fetchDiagnoses = async () => {
+      try {
+        const fetchedDiagnoses: Diagnosis[] = await diagnosisService.getAll();
+        setDiagnoses(fetchedDiagnoses);
+      } catch (error) {
+        console.log("error when fetching diagnoses data");
+      }
+    }
+
+    fetchDiagnoses();
+  }, [])
+
   // get patient info
   useEffect(() => {
     const fetchPatient = async () => {
@@ -42,9 +59,16 @@ const PatientPage = () => {
         <div key={i}>
           {entry.date} {entry.description}
           <ul>
-            {entry.diagnosisCodes && entry.diagnosisCodes.map((code, j) => (
-              <li key={j}>{code}</li>
-            ))}
+            {entry.diagnosisCodes && entry.diagnosisCodes.map((code, j) => {
+              const diagnosis = diagnoses?.find(d => d.code === code);
+              const diagnosisName = diagnosis ? diagnosis.name : "";
+
+              return (
+                <li key={j}>
+                  {code} {diagnosisName}
+                </li>
+              )
+            })}
           </ul>
         </div>
       ))}
