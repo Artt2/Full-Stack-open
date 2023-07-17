@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Weather, Visibility } from "../types";
 import { DiaryEntryInterface } from "../types";
 import diaryEntryService from "../services/diaryEntries";
+import axios from "axios";
 
 interface DiaryEntryFormProps {
   setNotificationMsg: React.Dispatch<React.SetStateAction<string>>;
@@ -19,25 +20,28 @@ const DiaryEntryForm = (props: DiaryEntryFormProps) => {
 
   const addDiaryEntry = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log("adding new diary...");
-    console.log(date);
-    console.log(visibility);
-    console.log(weather);
-    console.log(comment);
+    
+    diaryEntryService.create({
+      date: date,
+      weather: weather.toLowerCase(), //backend fails with "Sunny" instead of "sunny"
+      visibility: visibility.toLowerCase(),
+      comment: comment
+    }).then(data => {
+      props.setDiaryEntries(props.diaryEntries.concat(data))
+    }).catch(error => {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response);
 
-    try {
-      diaryEntryService.create({
-        date: date,
-        weather: weather.toLowerCase(), //backend fails with "Sunny" instead of "sunny"
-        visibility: visibility.toLowerCase(),
-        comment: comment
-      }).then(data => {
-        console.log("data received");
-        props.setDiaryEntries(props.diaryEntries.concat(data))
-      })
-    } catch (error) {
-      console.log("encountered an error");
-    }
+        if (error.response && error.response.data) {
+          props.setNotificationMsg(error.response.data);
+          setTimeout(() => {
+            props.setNotificationMsg("");
+          }, 5000);
+        }
+      } else {
+        console.error(error);
+      }
+    })
 
     setDate("");
     setVisibility("");
