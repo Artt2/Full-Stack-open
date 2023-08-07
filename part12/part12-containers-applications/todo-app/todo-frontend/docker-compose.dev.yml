@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    image: todo-backend
+    build:
+      context: .  #will pick this dir as the build context
+      dockerfile: dev.dockerfile  #which dockerfile to read
+    volumes:
+      - ./:usr/src/app
+    ports:
+      - 5000:5000
+    container_name: todo-frontend-con

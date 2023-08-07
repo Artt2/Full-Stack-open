@@ -1,6 +1,6 @@
 FROM node:16 AS test-stage
 
-WORKDIR /FSD/part12/part12-containers-applications/todo-app/todo-frontend
+WORKDIR /usr/src/app
 
 COPY . .
 
@@ -13,7 +13,7 @@ FROM test-stage AS build-stage
 
 #FROM node:16
 
-WORKDIR /FSD/part12/part12-containers-applications/todo-app/todo-frontend
+WORKDIR /usr/src/app
 
 COPY . .
 
