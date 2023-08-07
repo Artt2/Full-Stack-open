@@ -1,4 +1,17 @@
-FROM node:16
+FROM node:16 AS test-stage
+
+WORKDIR /FSD/part12/part12-containers-applications/todo-app/todo-frontend
+
+COPY . .
+
+RUN npm ci
+
+RUN CI=true npm test
+
+
+FROM test-stage AS build-stage
+
+#FROM node:16
 
 WORKDIR /FSD/part12/part12-containers-applications/todo-app/todo-frontend
 
