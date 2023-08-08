@@ -5,9 +5,17 @@ services:
     image: todo-backend
     build:
       context: .  #will pick this dir as the build context
-      dockerfile: dev.dockerfile  #which dockerfile to read
+      dockerfile: dev.Dockerfile  #which dockerfile to read
     volumes:
       - ./:/usr/src/app
     ports:
       - 3000:3000
     container_name: todo-frontend-con
+
+# volumes establishes a lin between these two directories
+
+# - edit files on ./ (my pc) and changes made to container
+
+# volumes ./ refers to the current directory on the host machine (my pc)
+# : 
+# /usr/src/app refers to the working directory set in dev.Dockerfile (inside the container)
