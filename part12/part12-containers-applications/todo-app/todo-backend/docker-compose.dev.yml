@@ -32,3 +32,6 @@ services:
     ports:
       - 3001:3001
     container_name: todo-backend-con
+
+#URL:s don't include localhost since localhost refers to the current computer used to access it.
+#As we're running things in a container, not on the machine (my pc), localhost wont work.
