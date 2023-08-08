@@ -7,7 +7,7 @@ services:
       context: .  #will pick this dir as the build context
       dockerfile: dev.dockerfile  #which dockerfile to read
     volumes:
-      - ./:usr/src/app
+      - ./:/usr/src/app
     ports:
-      - 5000:5000
+      - 3000:3000
     container_name: todo-frontend-con

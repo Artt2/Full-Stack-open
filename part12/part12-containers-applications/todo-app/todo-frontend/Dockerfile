@@ -11,8 +11,6 @@ RUN CI=true npm test
 
 FROM test-stage AS build-stage
 
-#FROM node:16
-
 WORKDIR /usr/src/app
 
 COPY . .
