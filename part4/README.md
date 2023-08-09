@@ -2,7 +2,7 @@
 
 Part 4 of the University of Helsinki's Full Stack Open Course, see [here](https://fullstackopen.com/en/part4) for more.
 
-Building a REST API in Node.js from scratch using Express with data stored to a MongoDB database. User administration and authentication. Using Redux for more complex state management. Testing done with jest.
+Building a REST API in Node.js from scratch using Express with data stored to a MongoDB database. User administration and authentication. Using Redux for more complex state management. Testing done with Jest.
 
 ## Technologies used
 
@@ -13,17 +13,16 @@ Building a REST API in Node.js from scratch using Express with data stored to a 
 
 ## Packages and Libraries
 
-- **React**
 - **Node.js**
 - **Axios**: HTTP client
 - **Express**: web app framework
 - **Redux**: complex application state management
 - **Mongoose**: databases for MongoDB
-- **Dotenv**: environment variables
 - **Jest**: unit testing
 - **Bcrypt**: passwords
 - **Prettier**: code formatting
+- **Dotenv**: environment variables
 
 ## Exercises and Projects
 
-- Implementing a REST API in Node.js from scratch: Bloglist
+- Implementing a REST API in Node.js from scratch: bloglist
