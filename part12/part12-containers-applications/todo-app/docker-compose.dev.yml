@@ -19,7 +19,7 @@ services:
     volumes:
       - ./todo-frontend/:/usr/src/app
     environment:
-      - REACT_APP_BACKEND_URL=http://localhost:3001
+      - REACT_APP_BACKEND_URL=http://localhost:8080/api/
   todo-backend:
     image: todo-backend-con
     build:
@@ -27,8 +27,6 @@ services:
       dockerfile: dev.Dockerfile
     volumes:
       - ./todo-backend/:/usr/src/app
-    ports:
-      - 3001:3001
     depends_on:
       - mongo
       - redis
