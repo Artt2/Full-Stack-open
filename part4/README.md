@@ -9,7 +9,7 @@ Building a REST API in Node.js from scratch using Express with data stored to a 
 - Programming Languages: **Javascript**
 - Databases: Document-oriented database using **MongoDB/Mongoose**
 - Scripts: package.json configuration 
-- Other: **CSS**, **Postman** as an API platform
+- Other: **Postman** as an API platform
 
 ## Packages and Libraries
 
