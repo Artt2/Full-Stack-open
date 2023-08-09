@@ -6,14 +6,14 @@ Continuing with React where part 1 left off. Using data from backend, working wi
 
 ## Technologies used
 
-- Programming Languages: Javascript
-- Other: CSS
+- Programming Languages: **Javascript**
+- Other: **CSS**
 
 ## Packages and Libraries
 
-- React
-- Node.js: 
-- Axios: HTTP client
+- **React**
+- **Node.js**
+- **Axios**: HTTP client
 
 ## Exercises and Projects
 

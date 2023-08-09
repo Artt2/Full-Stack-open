@@ -6,11 +6,11 @@ Introduction to the key concepts of the React-library, Javascript and
 
 ## Technologies used
 
-- Programming Languages: Javascript
+- Programming Languages: **Javascript**
 
 ## Packages and Libraries
 
-- React
+- **React**
 
 ## Exercises and Projects
 
