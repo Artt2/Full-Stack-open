@@ -82,7 +82,7 @@ Check out each part for a more comprehensive look!
 
 ### [Part 12: Containers](https://github.com/Artt2/Full-Stack-open/tree/main/part12)
 
-## Sertificates
+## Certificates
 
 The course has a certificate system for completing parts. The base course is graded on a scale of 0-5.
 
